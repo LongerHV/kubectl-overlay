@@ -1,0 +1,28 @@
+on:
+  schedule:
+    - cron: 0 0 * * *
+  workflow_dispatch:
+
+jobs:
+  build:
+    name: Update
+    runs-on: ubuntu-22.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          token: ${{ secrets.GH_TOKEN }}
+      - uses: DeterminateSystems/nix-installer-action@main
+      - uses: DeterminateSystems/magic-nix-cache-action@main
+      - name: Update lock
+        run: |
+          git config user.name 'github-actions'
+          git config user.email 'actions@github.com'
+          nix flake update --commit-lock-file
+      - name: Update kubectl
+        shell: nix develop .#update --command bash -e {0}
+        run: python update.py
+      - name: Push changes
+        run: |
+          git commit --all --message "versions.json: Update" || exit 0
+          git push
