@@ -18,5 +18,11 @@
           overlays = [ overlay ];
         }
       );
+      devShells = forAllSystems (system:
+        let pkgs = nixpkgs.legacyPackages.${system}; in {
+          update = pkgs.mkShellNoCC {
+            buildInputs = with pkgs.python3Packages; [ python requests packaging dacite ];
+          };
+        });
     };
 }
