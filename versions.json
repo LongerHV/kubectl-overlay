@@ -1,7 +1,7 @@
 {
   "kubectl_1_28": {
-    "version": "1.28.2",
-    "hash": "sha256-7juoX4nFvQbIIbhTlnIYVUEYUJGwu+aKrpw4ltujjXI="
+    "version": "1.28.3",
+    "hash": "sha256-lb9FAk3b6J92viyHzLCzbYRxhQS94/FQvDr1m1kdTq8="
   },
   "kubectl_1_27": {
     "version": "1.27.7",
