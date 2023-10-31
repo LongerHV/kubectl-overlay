@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 import json
+import os
 import subprocess
 from dataclasses import dataclass
 from functools import partial
@@ -9,10 +10,11 @@ from dacite import from_dict
 from packaging.version import Version
 from requests import Session
 
+GITHUB_TOKEN = os.getenv("GITHUB_TOKEN")
 HEADERS = {
     "Accept": "application/vnd.github+json",
     "X-GitHub-Api-Version": "2022-11-28",
-}
+} | ({"Authorization": f"Bearer {GITHUB_TOKEN}"} if GITHUB_TOKEN else {})
 
 
 def run(cmd: list[str]) -> str:

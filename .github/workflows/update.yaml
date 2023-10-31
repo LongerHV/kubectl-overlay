@@ -21,6 +21,8 @@ jobs:
           nix flake update --commit-lock-file
       - name: Update kubectl
         shell: nix develop .#update --command bash -e {0}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
         run: python update.py
       - name: Push changes
         run: |
