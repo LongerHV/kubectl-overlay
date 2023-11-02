@@ -26,5 +26,6 @@ jobs:
         run: python update.py
       - name: Push changes
         run: |
-          git commit --all --message "versions.json: Update" || exit 0
-          git push
+          git commit --all --message "versions.json: Update" \
+            || git push \
+            && git push
