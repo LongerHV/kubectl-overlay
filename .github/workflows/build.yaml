@@ -4,16 +4,31 @@ on:
     branches: [master]
 
 jobs:
+  get-versions:
+    name: Get versions to build
+    runs-on: ubuntu-22.04
+    timeout-minutes: 5
+    outputs:
+      matrix: ${{ steps.set-matrix.outputs.test }}
+    steps:
+      - uses: actions/checkout@v3
+      - id: set-matrix
+        run: |
+          VERSIONS=$(jq --compact-output keys < versions.json)
+          echo ${VERSIONS}
+          echo "test=${VERSIONS}" >> $GITHUB_OUTPUT
+
   build:
     name: Build
     runs-on: ubuntu-22.04
     timeout-minutes: 30
+    needs: get-versions
     strategy:
       matrix:
-        version: ["1_24", "1_25", "1_26", "1_27", "1_28"]
+        version: ${{ fromJson(needs.get-versions.outputs.matrix) }}
     steps:
       - uses: actions/checkout@v3
       - uses: DeterminateSystems/nix-installer-action@main
       - uses: DeterminateSystems/magic-nix-cache-action@main
       - name: Build kubectl
-        run: nix build .#kubectl_${{ matrix.version }}
+        run: nix build .#${{ matrix.version }}

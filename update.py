@@ -1,9 +1,11 @@
 #!/usr/bin/env python
 import json
+import logging
 import os
 import subprocess
 from dataclasses import dataclass
 from functools import partial
+from itertools import groupby
 from typing import Iterable, Mapping
 
 from dacite import from_dict
@@ -21,7 +23,8 @@ def run(cmd: list[str]) -> str:
     return subprocess.run(cmd, capture_output=True, text=True).stdout.strip()
 
 
-def nix_prefetch_sha256(version):
+def nix_prefetch_sha256(version: Version) -> str:
+    logging.info(f"Prefetching sources for kubectl {version}")
     url = (
         f"https://github.com/kubernetes/kubernetes/archive/refs/tags/v{version}.tar.gz"
     )
@@ -38,7 +41,7 @@ class VersionArgs:
         if isinstance(self.version, str):
             self.version = Version(self.version)
 
-    def as_dict(self):
+    def as_dict(self) -> dict[str, str]:
         return {
             "version": str(self.version),
             "hash": self.hash,
@@ -48,12 +51,6 @@ class VersionArgs:
 @dataclass
 class ResponseRelease:
     tag_name: str
-
-
-def load_versions() -> Mapping[str, VersionArgs]:
-    with open("./versions.json", "r") as f:
-        versions = json.load(f)
-    return {k: VersionArgs(**v) for k, v in versions.items()}
 
 
 def dump_versions(versions: Mapping[str, VersionArgs]):
@@ -69,46 +66,43 @@ def fetch_available_versions(http: Session) -> Iterable[Version]:
     return map(lambda release: Version(release.tag_name), releases)
 
 
-def filter_matching(version: Version, versions: list[Version]) -> Iterable[Version]:
-    def match(v: Version) -> bool:
-        return all(
-            [
-                not v.is_prerelease,
-                not v.is_postrelease,
-                not v.is_devrelease,
-                v.major == version.major,
-                v.minor == version.minor,
-            ]
-        )
-
-    return filter(match, versions)
-
-
-def update(version: VersionArgs, available_versions: list[Version]) -> VersionArgs:
-    matching_versions = filter_matching(version.version, available_versions)
-    latest_bugfix = max(matching_versions)
-    if latest_bugfix <= version.version:
-        return version
-    print(version.version, "->", latest_bugfix)
-    return VersionArgs(
-        version=latest_bugfix,
-        hash=nix_prefetch_sha256(latest_bugfix),
+def filter_versions(versions: Iterable[Version]) -> Iterable[Version]:
+    return filter(
+        lambda v: not (v.is_devrelease or v.is_postrelease or v.is_prerelease),
+        versions,
     )
 
 
-def update_all(
-    versions: Mapping[str, VersionArgs], available_versions: list[Version]
-) -> Mapping[str, VersionArgs]:
-    return {name: update(v, available_versions) for name, v in versions.items()}
+def get_latest_bugfixes(versions: Iterable[Version]) -> Iterable[Version]:
+    grouped_versions = groupby(
+        sorted(versions, reverse=True),
+        key=lambda v: (v.major, v.minor),
+    )
+    return map(lambda x: max(x[1]), grouped_versions)
+
+
+def get_final_versions(versions: Iterable[Version]) -> dict[str, VersionArgs]:
+    final_versions = {
+        f"kubectl_{v.major}_{v.minor}": VersionArgs(v, nix_prefetch_sha256(v))
+        for v in get_latest_bugfixes(versions)
+    }
+    latest = {"kubectl_latest": max(final_versions.values(), key=lambda v: v.version)}
+    return latest | final_versions
+
+
+def log_versions(versions: Mapping[str, VersionArgs]):
+    for package, version in versions.items():
+        logging.info(f"{package} -> {version.version} -> {version.hash}")
 
 
 def main():
-    versions = load_versions()
+    logging.basicConfig(level=logging.INFO)
     with Session() as http:
         http.headers.update(HEADERS)
-        available_versions = list(fetch_available_versions(http))
-    updated_versions = update_all(versions, available_versions)
-    dump_versions(updated_versions)
+        available_versions = filter_versions(fetch_available_versions(http))
+    final_versions = get_final_versions(available_versions)
+    log_versions(final_versions)
+    dump_versions(final_versions)
 
 
 if __name__ == "__main__":
