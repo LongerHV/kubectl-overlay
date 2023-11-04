@@ -6,17 +6,20 @@ import subprocess
 from dataclasses import dataclass
 from functools import partial
 from itertools import groupby
-from typing import Iterable, Mapping
+from typing import Iterable, Mapping, TypeVar
 
 from dacite import from_dict
 from packaging.version import Version
 from requests import Session
 
+KEEP_LATEST_VERSIONS = 5
 GITHUB_TOKEN = os.getenv("GITHUB_TOKEN")
 HEADERS = {
     "Accept": "application/vnd.github+json",
     "X-GitHub-Api-Version": "2022-11-28",
 } | ({"Authorization": f"Bearer {GITHUB_TOKEN}"} if GITHUB_TOKEN else {})
+
+T = TypeVar("T")
 
 
 def run(cmd: list[str]) -> str:
@@ -81,10 +84,17 @@ def get_latest_bugfixes(versions: Iterable[Version]) -> Iterable[Version]:
     return map(lambda x: max(x[1]), grouped_versions)
 
 
+def limit(iterable: Iterable[T], limit_: int) -> Iterable[T]:
+    for index, element in enumerate(iterable):
+        if index >= limit_:
+            break
+        yield element
+
+
 def get_final_versions(versions: Iterable[Version]) -> dict[str, VersionArgs]:
     final_versions = {
         f"kubectl_{v.major}_{v.minor}": VersionArgs(v, nix_prefetch_sha256(v))
-        for v in get_latest_bugfixes(versions)
+        for v in limit(get_latest_bugfixes(versions), KEEP_LATEST_VERSIONS)
     }
     latest = {"kubectl_latest": max(final_versions.values(), key=lambda v: v.version)}
     return latest | final_versions
