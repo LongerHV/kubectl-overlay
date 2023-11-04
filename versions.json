@@ -22,13 +22,5 @@
   "kubectl_1_24": {
     "version": "1.24.17",
     "hash": "sha256-js0NhYL5WCvlufEyYUvk9xVlbU7minpinn7w/QY+CnA="
-  },
-  "kubectl_1_23": {
-    "version": "1.23.17",
-    "hash": "sha256-H1HuA+eJzYNRIxscJpimH/AKFJM/ijOd8yrN9E/PZQ8="
-  },
-  "kubectl_1_22": {
-    "version": "1.22.17",
-    "hash": "sha256-T4DUleHYNWHtdIJAsdroBDiDuiQzOmySBhF+RVoC/38="
   }
 }
