@@ -16,8 +16,8 @@
     "hash": "sha256-0xOiVivkZF85kUI9LdAsoWdth966cMGjOxspeVVpQAc="
   },
   "kubectl_1_25": {
-    "version": "1.25.15",
-    "hash": "sha256-TIuHXX7YCcsVU/oD6yxcT4wUfTw7KSvwhNf5Xtj738g="
+    "version": "1.25.16",
+    "hash": "sha256-Je+PeMF7Ivg5gD/y8l0piXfO60/TClz28lyvyyCnXkA="
   },
   "kubectl_1_24": {
     "version": "1.24.17",
