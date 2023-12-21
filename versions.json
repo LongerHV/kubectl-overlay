@@ -8,16 +8,16 @@
     "hash": "sha256-CV0MjT/8tcr4bkFH83Lsuw+pyxN0t5KKlrIrAVA//8Q="
   },
   "kubectl_1_28": {
-    "version": "1.28.4",
-    "hash": "sha256-aaGcAIyy0hFJGFfOq5FaF0qAlygXcs2WcwgvMe5dkbo="
+    "version": "1.28.5",
+    "hash": "sha256-nv/GcFyLRVki1qholc1JVMvNv8/5q1+yltjGg7fq1f8="
   },
   "kubectl_1_27": {
-    "version": "1.27.8",
-    "hash": "sha256-90tmK7OcEeCdKHYN3aWrGrnv+yiVTx62cPllo+IA4PQ="
+    "version": "1.27.9",
+    "hash": "sha256-BJDTMg6cWJs5Dh70FwT5r2oj7cfP7OfeZfID2yZ0I68="
   },
   "kubectl_1_26": {
-    "version": "1.26.11",
-    "hash": "sha256-0xOiVivkZF85kUI9LdAsoWdth966cMGjOxspeVVpQAc="
+    "version": "1.26.12",
+    "hash": "sha256-Wbf2vvhkgP3RJ96dUC74+66LRhew26Eq2FRBNtOKwAY="
   },
   "kubectl_1_25": {
     "version": "1.25.16",
