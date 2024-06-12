@@ -12,12 +12,12 @@
     "hash": "sha256-Or34QClp6Jiggud4wQK+v/ASHsxbkw8FJD7EdjLS4fY="
   },
   "kubectl_1_28": {
-    "version": "1.28.10",
-    "hash": "sha256-1iJ+rqWNl7VjRgFRX4w1/ykeOSAABSC0/HnqWQOytpM="
+    "version": "1.28.11",
+    "hash": "sha256-A8aFK1+2SbSP90Vb5NZ2y5vLi8pEPKUH199IG003NAI="
   },
   "kubectl_1_27": {
-    "version": "1.27.14",
-    "hash": "sha256-HxjBTiQFBmNXsr447agj7kR3HXTJqcyUoS9fAuQ+pIY="
+    "version": "1.27.15",
+    "hash": "sha256-d74YbTvnJerOGyh80mXTONs+B38kC4SVs8xsED8JEu0="
   },
   "kubectl_1_26": {
     "version": "1.26.15",
