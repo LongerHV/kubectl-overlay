@@ -8,8 +8,8 @@
     "hash": "sha256-Oy638nIuz2xWVvMGWHUeI4T7eycXIfT+XHp0U7h8G9w="
   },
   "kubectl_1_30": {
-    "version": "1.30.3",
-    "hash": "sha256-AJ2EQVaW96XzKp7ZaKfsija+fWmkvy0g3qQH0VFcmsQ="
+    "version": "1.30.4",
+    "hash": "sha256-Ob4fezYEj9RPt5tc0c9ms0+t4/DWib4mMrYL1rCmcvw="
   },
   "kubectl_1_29": {
     "version": "1.29.7",
