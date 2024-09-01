@@ -12,9 +12,7 @@ jobs:
       - uses: actions/checkout@main
         with:
           token: ${{ secrets.GH_TOKEN }}
-      - uses: DeterminateSystems/nix-installer-action@v11
-        with:
-          source-revision: v0.19.1
+      - uses: DeterminateSystems/nix-installer-action@main
       - uses: DeterminateSystems/magic-nix-cache-action@main
       - name: Update lock
         run: |
