@@ -6,7 +6,7 @@ import subprocess
 from dataclasses import dataclass
 from functools import partial
 from itertools import groupby
-from typing import Iterable, Mapping, TypeVar
+from typing import Iterable, Mapping
 
 from dacite import from_dict
 from packaging.version import Version
@@ -18,8 +18,6 @@ HEADERS = {
     "Accept": "application/vnd.github+json",
     "X-GitHub-Api-Version": "2022-11-28",
 } | ({"Authorization": f"Bearer {GITHUB_TOKEN}"} if GITHUB_TOKEN else {})
-
-T = TypeVar("T")
 
 
 def run(cmd: list[str]) -> str:
@@ -84,7 +82,7 @@ def get_latest_bugfixes(versions: Iterable[Version]) -> Iterable[Version]:
     return map(lambda x: max(x[1]), grouped_versions)
 
 
-def limit(iterable: Iterable[T], limit_: int) -> Iterable[T]:
+def limit[T](iterable: Iterable[T], limit_: int) -> Iterable[T]:
     for index, element in enumerate(iterable):
         if index >= limit_:
             break
