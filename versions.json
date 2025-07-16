@@ -1,19 +1,19 @@
 {
   "kubectl_latest": {
-    "version": "1.33.2",
-    "hash": "sha256-Ef/tpjM5RGQzO8rZxTad23DuM6VLlV3N54LOu7dtc6A="
+    "version": "1.33.3",
+    "hash": "sha256-UZdrfQEEx0RRe4Bb4EAWcjgCCLq4CJL06HIriYuk1Io="
   },
   "kubectl_1_33": {
-    "version": "1.33.2",
-    "hash": "sha256-Ef/tpjM5RGQzO8rZxTad23DuM6VLlV3N54LOu7dtc6A="
+    "version": "1.33.3",
+    "hash": "sha256-UZdrfQEEx0RRe4Bb4EAWcjgCCLq4CJL06HIriYuk1Io="
   },
   "kubectl_1_32": {
-    "version": "1.32.6",
-    "hash": "sha256-MCKYcum4rib7qzKyZ7YMMYYhSPqNF5a/D33d9REa8Eo="
+    "version": "1.32.7",
+    "hash": "sha256-64002KyKgITobf4WCVgA1TQwJmnIG9rVUuuq8wPYKn4="
   },
   "kubectl_1_31": {
-    "version": "1.31.10",
-    "hash": "sha256-renFznJJLYvfIJn59yx9BeZ5HRtSIdtDXXIK2CEs4MU="
+    "version": "1.31.11",
+    "hash": "sha256-w4pVk2J7LuU2jbyklmOZSUrB1AwIzusQgxp89OdtK1I="
   },
   "kubectl_1_30": {
     "version": "1.30.14",
